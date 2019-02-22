@@ -11,9 +11,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import dataProviders.ConfigFileReader;
+import managers.FileReaderManager;
+
 public class HomePage {
 	
 	WebDriver driver;
+	/*ConfigFileReader configFileReader;*/
 	
 	public HomePage(WebDriver driver) {
 		this.driver=driver;
@@ -29,5 +33,12 @@ public class HomePage {
 		searchTxt.sendKeys(Keys.ENTER);
 	}
 	
-	
+	public void openAmazonWebsite() {
+		System.setProperty("webdriver.chrome.driver", FileReaderManager.getInstance().getConfigReader().getDriverPath());
+		
+		driver=new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get(FileReaderManager.getInstance().getConfigReader().getApplicationUrl());
+		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+	}
 }

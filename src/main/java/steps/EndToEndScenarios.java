@@ -14,8 +14,10 @@ import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import dataProvider.ConfigFileReader;
-import manager.PageObjectManager;
+import dataProviders.ConfigFileReader;
+import managers.BrowserFactory;
+import managers.FileReaderManager;
+import managers.PageObjectManager;
 
 public class EndToEndScenarios {
 	WebDriver driver;
@@ -24,16 +26,16 @@ public class EndToEndScenarios {
 	AddToCartPage addToCartPage;
 	ProductDescriptionPage productDescriptionPage;
 	SearchResultPage searchResultPage;
-
+	BrowserFactory browserFactory;
 	
 	
 	@Given("^user navigates to amazon website$")
 	public void user_navigates_to_amazon_website() throws Throwable {
+		System.setProperty("webdriver.chrome.driver", FileReaderManager.getInstance().getConfigReader().getDriverPath());
 		
-		System. setProperty("webdriver.chrome.driver", "E:\\Continuum Data\\Drivers\\chromedriver.exe");
 		driver=new ChromeDriver();
 		driver.manage().window().maximize();
-		driver.get("https://www.amazon.in/");
+		driver.get(FileReaderManager.getInstance().getConfigReader().getApplicationUrl());
 		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
 	}
 
